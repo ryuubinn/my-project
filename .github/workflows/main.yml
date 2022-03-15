@@ -10,6 +10,29 @@ on:
     branches: [ master ]
 
 jobs:
+
+  sigma_code_scanning_run_steps:
+    runs-on: ubuntu-latest
+    container:
+      image: shuihen/testapp:sigma-2022.3.0
+      credentials:
+        username: ${{secrets.REGISTRY_USERNAME}}
+        password: ${{secrets.REGISTRY_PASSWORD}}
+    
+    steps:
+      - name: Check out the repo
+        uses: synced-actions/checkout@v2
+ 
+      - name: Sigma analysi
+        run: sigma analyze --format github .
+ 
+      - name: Upload SARIF file
+        if: ${{ always() }}
+        uses: synced-actions/github-codeql-action/upload-sarif@v1
+        with:
+          sarif_file: sigma-results.json
+
+  
   build-java:
 
     runs-on: ubuntu-latest

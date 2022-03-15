@@ -16,8 +16,8 @@ jobs:
     container:
       image: shuihen/testapp:sigma-2022.3.0
       credentials:
-        username: ${{secrets.REGISTRY_USERNAME}}
-        password: ${{secrets.REGISTRY_PASSWORD}}
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
     
     steps:
       - name: Check out the repo
